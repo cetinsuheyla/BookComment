@@ -1,0 +1,25 @@
+<% layout('layouts/boilerplate') %>
+
+<form action="/books" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+
+<input type="file" name="image">
+
+    <div class="mb-3">
+        <label class="form-label" for="title">Title</label>
+        <input class="form-control" type="text" id="title" name="book[title]" required>
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="author">Author</label>
+        <input class="form-control" type="text" id="author" name="book[author]" required>
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+    </div>
+
+   <div class="mb-3">
+       <button class="btn btn-success">Add Book</button>
+   </div>
+</form>

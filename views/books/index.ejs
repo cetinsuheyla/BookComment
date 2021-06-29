@@ -1,0 +1,10 @@
+<% layout('layouts/boilerplate') %>
+
+<h1>Book List</h1>
+
+
+<ul class="list-group list-group-flush">
+  <% for(let book of books){ %>
+    <li class="list-group-item"><a href="/books/<%= book._id %>"><%= book.title %></a></li>
+  <% } %>
+</ul>

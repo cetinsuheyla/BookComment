@@ -1,0 +1,90 @@
+<% layout('layouts/boilerplate') %>
+
+<link rel="stylesheet" href="/styles/stars.css">
+
+<div class="row">
+
+  <div class="col-6">
+
+    <div class="card" style="width: 35rem;">
+
+      <% for(img of book.images) { %>
+        <img src="<%= img.url %>" alt="book_img">
+      <% } %>
+
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><%= book.title %></li>
+        <li class="list-group-item"><%= book.author %></li>
+        <li class="list-group-item">Submitted by <%= book.owner.username %></li>
+
+      </ul>
+      <% if(currentUser && book.owner.equals(currentUser)){ %>
+      <div class="card-body">
+        <a href="/books/<%=book._id%>/edit" class="card-link btn btn-warning">Edit</a>
+        <form class="d-inline" action="/books/<%=book._id%>?_method=DELETE" method="POST">
+          <button class="btn btn-danger" type="submit" name="button">Delete</button>
+        </form>
+      </div>
+      <% } %>
+    </div>
+
+  </div>
+
+
+
+<div class="col-6">
+  <% if(currentUser){ %>
+  <h3 class="mt-3">How did you enjoy?</h2>
+
+  <form action="/books/<%=book._id%>/reflections" method="post" class="validated-form" novalidate>
+    <div class="mb-1">
+      <fieldset class="starability-basic">
+    <input type="radio" id="no-rate" class="input-no-rate" name="reflection[rating]" value="1" checked aria-label="No rating." />
+    <input type="radio" id="first-rate1" name="reflection[rating]" value="1" />
+    <label for="first-rate1" title="Terrible">1 star</label>
+    <input type="radio" id="first-rate2" name="reflection[rating]" value="2" />
+    <label for="first-rate2" title="Not good">2 stars</label>
+    <input type="radio" id="first-rate3" name="reflection[rating]" value="3" />
+    <label for="first-rate3" title="Average">3 stars</label>
+    <input type="radio" id="first-rate4" name="reflection[rating]" value="4" />
+    <label for="first-rate4" title="Very good">4 stars</label>
+    <input type="radio" id="first-rate5" name="reflection[rating]" value="5" />
+    <label for="first-rate5" title="Amazing">5 stars</label>
+  </fieldset>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="body">Reflection</label>
+      <textarea class="form-control" id='body' name="reflection[body]" rows="8" cols="50" required></textarea>
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+    </div>
+    <button type="submit" class="btn btn-success mb-3">Submit</button>
+  </form>
+  <% } %>
+
+  <% for(let reflection of book.reflections) { %>
+
+    <div class="card mb-3">
+
+    <div class="card-body">
+
+    <p class="starability-result" data-rating="<%= reflection.rating %>">
+      Rated: <%= reflection.rating %> stars
+    </p>
+      <h6 class="card-subtitle text-muted mb-2">By <%= reflection.author.username %></h6>
+      <p class="card-text">Reflection: <%= reflection.body %></p>
+
+      <% if(currentUser && reflection.author.equals(currentUser)){ %>
+      <form class="" action="/books/<%=book._id%>/reflections/<%=reflection._id%>?_method=DELETE" method="post">
+        <button class="btn btn-sm btn-danger">Delete</button>
+      </form>
+      <% } %>
+    </div>
+
+    </div>
+
+    <% } %>
+</div>
+</div>
